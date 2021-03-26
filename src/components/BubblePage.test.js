@@ -33,8 +33,11 @@ test("Renders BubblePage without errors", () => {
  
 });
 
-test("Fetches data and renders the bubbles on mounting", () => {
+test("Fetches data and renders the bubbles on mounting", async () => {
   // Finish this test
+  render(<BubblePage testColors={testColors}/>)
+  const bubbles = screen.queryByText(/bubbles/i)
+  expect(bubbles).toBeInTheDocument();
 });
 
 //Task List
