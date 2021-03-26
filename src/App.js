@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import BubblePage from './components/BubblePage';
 import ColorList from "./components/ColorList";
@@ -11,13 +11,15 @@ import "./styles.scss";
 
 
 function App() {
+  
   return (
     <Router>
       <div className="App">
         <Switch>
-          <Route path='/protected/bubblePage/colors/:id' component={ColorList} />
-          <PrivateRoute exactpath ='/protected/bubblePage' component={BubblePage} />
-          <Route exact path="/" component={Login} />
+          <Route path='/colors/:id' component={ColorList} />
+          <PrivateRoute exact path ='/protected/bubblePage' component={BubblePage} />
+          <Route exact path="/login" component={Login} />
+          <Route component={Login} />
         </Switch>
       </div>
     </Router>

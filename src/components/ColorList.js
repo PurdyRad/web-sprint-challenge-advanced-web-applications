@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import EditMenu from './EditMenu';
-import {useParams, useHistory} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
 import {axiosWithAuth} from '../helpers/axiosWithAuth';
 
@@ -12,11 +12,10 @@ const initialColor = {
 const ColorList = ({ colors, updateColors }) => {
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-  // const {id} = useParams();
-  // const {push} = useHistory();
+  const {id} = useParams();
+
 
   console.log(' current id ', colorToEdit.id)
-  console.log('updateColor', updateColors)
   console.log('colortoedit', colorToEdit)
 
   const editColor = color => {
@@ -25,7 +24,7 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const saveEdit = e => {
-    console.log(e)
+    
     e.preventDefault();
 
     axiosWithAuth()
@@ -34,7 +33,6 @@ const ColorList = ({ colors, updateColors }) => {
       console.log('colors id',colors[res.data.id].id)
       console.log('ColorList res:', res)
       updateColors([...colors, res.data])
-      // push(`/protected/bubblePage/${colorToEdit.id}`)
     })
     .catch(err => {
       console.log({'ColorList err': err})
@@ -45,7 +43,7 @@ const ColorList = ({ colors, updateColors }) => {
   const deleteColour =(id) => {
     updateColors(colors.filter(item => (item.id !== Number(id))))
   }
-  //deleteColor is grabbing undefines, unable to find "id" value,
+ 
   const deleteColor = color => {
     console.log("color in DC:", color)
     axiosWithAuth()
