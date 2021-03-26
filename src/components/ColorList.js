@@ -12,10 +12,10 @@ const initialColor = {
 const ColorList = ({ colors, updateColors }) => {
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-  const {id} = useParams();
-  const {push} = useHistory();
+  // const {id} = useParams();
+  // const {push} = useHistory();
 
-  console.log(' current id ', id)
+  console.log(' current id ', colorToEdit.id)
   console.log('updateColor', updateColors)
   console.log('colortoedit', colorToEdit)
 
@@ -25,31 +25,34 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const saveEdit = e => {
+    console.log(e)
     e.preventDefault();
 
     axiosWithAuth()
-    .put(`/api/colors/${id}`, colorToEdit)
+    .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
     .then(res =>{
+      console.log('colors id',colors[res.data.id].id)
       console.log('ColorList res:', res)
-      // updateColors(...colors, {colors:
-      //   colorToEdit} )
-      // setColorToEdit(res.data)
       updateColors([...colors, res.data])
-      //this adds a "colors: {color: "SOFT", code: {…}, id: 8}" to the colors array
-      push(`/protected/bubblePage/colors-edit/`)
+      // push(`/protected/bubblePage/${colorToEdit.id}`)
     })
     .catch(err => {
       console.log({'ColorList err': err})
     })
   };
 
-  //currently not updating state with new colors
+
+  const deleteColour =(id) => {
+    updateColors(colors.filter(item => (item.id !== Number(id))))
+  }
   //deleteColor is grabbing undefines, unable to find "id" value,
   const deleteColor = color => {
+    console.log("color in DC:", color)
     axiosWithAuth()
-    .delete(`/api/colors/${id}`)
+    .delete(`/api/colors/${color.id}`)
     .then( res => {
       console.log('Deleteres:', res)
+      deleteColour(res.data)
     })
     .catch(err => {
       console.log({'Deleteerr:': err})

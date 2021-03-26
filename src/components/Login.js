@@ -48,9 +48,9 @@ const Login = (props) => {
         <p>Build a login page here</p>
         <form onSubmit={submitToMyWillSillyForm}>
           <label htmlFor='username'>Username</label>
-          <input type='text' name='username' value={formValues.username} onChange={changa} placeholder='Username..' />
+          <input type='text' name='username' value={formValues.username} onChange={changa} id='username' placeholder='Username..' />
           <label htmlFor='password'>Password</label>
-          <input type='password' name='password' value={formValues.password} onChange={changa} placeholder='Password..' />
+          <input type='password' name='password' value={formValues.password} onChange={changa} id='password' placeholder='Password..' />
           <button>Gain Ultra High Level Bubble Clearance</button>
         </form>
       </h1>

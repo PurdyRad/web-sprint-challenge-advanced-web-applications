@@ -22,7 +22,7 @@ const BubblePage = () => {
       console.log({'err:': err})
     })
   }
-
+ 
   //setting into state on initial render
   useEffect(() => {
      bubbleColorSetter();

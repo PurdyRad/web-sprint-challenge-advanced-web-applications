@@ -9,6 +9,10 @@ A token is used to authorize a user for private information in an app.
 Using Private Route and requiring authentication through authorization will greatly improve security for your web apps.
 
 3. Describe how web servers work.
-web servers
+Web servers can refer to the computer or the software but in essence web servers connect the internet to code. Servers can store code to be requested at a later date.
 
 4. Which HTTP methods can be mapped to the CRUD acronym that we use when interfacing with APIs/Servers.
+C-reate: axios.put/post()
+R-ead: axios.get()
+U-update axios.put
+D-elete axios.delete()
