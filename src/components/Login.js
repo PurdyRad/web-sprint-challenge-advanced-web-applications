@@ -1,19 +1,58 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {useHistroy} from 'react-router-dom';
 
-const Login = () => {
+const initialFormValues = {
+  username: '',
+  password: '',
+}
+
+const Login = (props) => {
+  const [formValues, setFormValues]= useState(initialFormValues)
+  // const {push} = useHistroy();
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
+
+
+  console.log('props:', props)
+  const changa = (e) => {
+    setFormValues({ ...formValues,
+      [e.target.name]: e.target.value}
+    )
+  }
 
   useEffect(()=>{
     // make a post request to retrieve a token from the api
     // when you have handled the token, navigate to the BubblePage route
   });
+
+  const submitToMyWillSillyForm = (e) => {
+    e.preventDefault();
+    axios.post('http://localhost:5000/api/login', { username: 'Lambda School', password: 'i<3Lambd4' })
+    .then(res => {
+      console.log('res:', res)
+      //res.data.payload gives us token
+      localStorage.setItem('token', res.data.payload)
+      props.history.push('/protected/bubblePage')
+    })
+    .catch(err =>{
+      console.log({'err:': err})
+    });
+  }
+
+  console.log('formValues:', formValues)
   return (
     <>
       <h1>
         Welcome to the Bubble App!
         <p>Build a login page here</p>
+        <form onSubmit={submitToMyWillSillyForm}>
+          <label htmlFor='username'>Username</label>
+          <input type='text' name='username' value={formValues.username} onChange={changa} placeholder='Username..' />
+          <label htmlFor='password'>Password</label>
+          <input type='password' name='password' value={formValues.password} onChange={changa} placeholder='Password..' />
+          <button>Gain Ultra High Level Bubble Clearance</button>
+        </form>
       </h1>
     </>
   );
