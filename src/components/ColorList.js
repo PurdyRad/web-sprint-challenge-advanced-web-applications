@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import EditMenu from './EditMenu';
+import {useParams, useHistory} from 'react-router-dom';
+
+import {axiosWithAuth} from '../helpers/axiosWithAuth';
 
 const initialColor = {
   color: "",
@@ -10,6 +12,8 @@ const initialColor = {
 const ColorList = ({ colors, updateColors }) => {
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  const {id} = useParams();
+  const {push} = useHistory();
 
   const editColor = color => {
     setEditing(true);
@@ -19,11 +23,33 @@ const ColorList = ({ colors, updateColors }) => {
   const saveEdit = e => {
     e.preventDefault();
 
+    axiosWithAuth()
+    .put(`/api/colors/${id}`, colorToEdit)
+    .then(res =>{
+      console.log('ColorList res:', res)
+      setColorToEdit({ ...colorToEdit, colors: res.data })
+      push(`/protected/bubblePage/colors-edit/`)
+    })
+    .catch(err => {
+      console.log({'ColorList err': err})
+    })
   };
+
+  //currently not updating state with new colors
+  //deleteColor is grabbing undefines, unable to find "id" value,
 
   const deleteColor = color => {
+    axiosWithAuth()
+    .delete(`/api/colors/${id}`)
+    .then( res => {
+      console.log('Deleteres:', res)
+    })
+    .catch(err => {
+      console.log({'Deleteerr:': err})
+    })
   };
 
+  console.log('COLORS', colors)
   return (
     <div className="colors-wrap">
       <p>colors</p>
