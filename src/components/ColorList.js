@@ -15,6 +15,10 @@ const ColorList = ({ colors, updateColors }) => {
   const {id} = useParams();
   const {push} = useHistory();
 
+  console.log(' current id ', id)
+  console.log('updateColor', updateColors)
+  console.log('colortoedit', colorToEdit)
+
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
@@ -27,7 +31,11 @@ const ColorList = ({ colors, updateColors }) => {
     .put(`/api/colors/${id}`, colorToEdit)
     .then(res =>{
       console.log('ColorList res:', res)
-      setColorToEdit({ ...colorToEdit, colors: res.data })
+      // updateColors(...colors, {colors:
+      //   colorToEdit} )
+      // setColorToEdit(res.data)
+      updateColors([...colors, res.data])
+      //this adds a "colors: {color: "SOFT", code: {…}, id: 8}" to the colors array
       push(`/protected/bubblePage/colors-edit/`)
     })
     .catch(err => {
@@ -37,7 +45,6 @@ const ColorList = ({ colors, updateColors }) => {
 
   //currently not updating state with new colors
   //deleteColor is grabbing undefines, unable to find "id" value,
-
   const deleteColor = color => {
     axiosWithAuth()
     .delete(`/api/colors/${id}`)
